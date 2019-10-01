@@ -2,7 +2,7 @@
 title: "Mapping in R"
 author: "Dale Maschette, Ben Raymond & Michael Sumner"
 date: "02/10/2019"
-output: html_document
+output: rmdformats::readthedown
 ---
 
 ```{r setup, include=FALSE}
@@ -149,7 +149,8 @@ plot(0, xlim = range(mpmerc$range[1:2]), ylim = c(mpmerc$range[1], 0))
 maps::map(mpmerc,  fill = TRUE, col = "grey", add = TRUE)
 ```
 
-##ggplot2
+## ggplot2
+
 So far all the maps we have made use graphics::plot() but we can also use `ggplot2` to make our maps. 
 
 As a quick example of how we might do this: 
@@ -170,10 +171,28 @@ The `map_data` function is an internal `ggplot2` function to access the data in 
 
 Below we plot this using `ggplot2` plotting the countries as polygons. *Note the use of group to specify the breaks in the data to make different countries different polygons.*
 
+Lonlat
+
 ```{r ggplot2}
 ggplot(world, aes(x=lon, y=lat)) +
   geom_polygon(aes(group = group, fill=id), col="grey") + 
   coord_quickmap()+scale_fill_discrete(guide=FALSE)
+```
+
+Stereographic
+
+```{r ggplot2-ster}
+ggplot(world, aes(x=lon, y=lat)) +
+  geom_polygon(aes(group = group, fill=id), col="grey") + 
+  coord_map(projection = "stereographic", orientation = c(-90, 0, 0))+scale_fill_discrete(guide=FALSE)
+```
+
+Orthogonal
+
+```{r ggplot2-ortho}
+ggplot(world, aes(x=lon, y=lat)) +
+  geom_polygon(aes(group = group, fill=id), col="grey") + 
+  coord_map(projection = "ortho", orientation = c(-90, 0, 0))+scale_fill_discrete(guide=FALSE)
 ```
 
 Adding some data? We probably need some first so we will make some fake data quickly
@@ -640,5 +659,20 @@ plot(layer_data[layer_data$MONTH == "October", ])
 ## or add to a SOmap
 SOmap(trim = -50, border_width = 0.5)
 SOplot(layer_data[layer_data$MONTH == "October", ], col = "red")
+```
+
+## Citations
+
+No matter what packages you use in R you should always cite them. Often packages will have far more time invested in them than some publications and the authors deserve acknowledgement. R makes this easy for example, the citation for SOmap can be found with: 
+
+```{r citation, fig.cap="Fig. inf: shiny Southern Ocean map made with SOmap (Maschette et al., 2019). "}
+SOmap()
+```
+
+```{r}
+
+citation("SOmap")
+citation("ggplot2")
+
 ```
 
