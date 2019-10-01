@@ -1,6 +1,6 @@
 ---
 title: "Mapping in R"
-author: "Ben Raymond & Dale Maschette"
+author: "Dale Maschette, Ben Raymond & Michael Sumner"
 date: "02/10/2019"
 output: html_document
 ---
